@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Mateus",
+      "email": "mateus@jstack.com.br"
+    },
+    {
+      "id": 2,
+      "name": "Anderson Kaiti",
+      "email": "anderkaiti@gmail.com"
+    }
+  ]
+}
