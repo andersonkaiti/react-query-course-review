@@ -1,10 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-
-interface IUser {
-  id: string
-  name: string
-  email: string
-}
+import { getUsers } from '../http/get-users'
 
 const FIVE_SECONDS = 5000
 
@@ -13,11 +8,7 @@ export function Users() {
     enabled: true,
     queryKey: ['users'],
     staleTime: FIVE_SECONDS,
-    queryFn: async (): Promise<IUser[]> => {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      const response = await fetch('http://localhost:3000/users')
-      return await response.json()
-    },
+    queryFn: getUsers,
   })
 
   return (
