@@ -4,7 +4,20 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { Posts } from './pages/posts'
 import { Users } from './pages/users'
 
-const queryClient = new QueryClient()
+const FIVE_SECONDS = 5000
+const ONE_SECOND = 1000
+const ONE_MINUTE = 60 * ONE_SECOND
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: FIVE_SECONDS,
+      gcTime: 10 * ONE_MINUTE,
+    },
+  },
+})
 
 export function App() {
   return (
