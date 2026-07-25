@@ -8,9 +8,11 @@ export function Users() {
     enabled: true,
     queryKey: ['users'],
     staleTime: FIVE_SECONDS,
-    // gcTime: Garbage Collection Time é o tempo que uma query precisa estar
-    // inativa até ela ser removida de dentro do cache
     gcTime: FIVE_SECONDS,
+    // refetchOnWindowFocus: false,
+    // refetchInterval: Long Polling
+    // Dispara uma request a cada determinado período de tempo
+    refetchInterval: FIVE_SECONDS,
     queryFn: getUsers,
   })
 
