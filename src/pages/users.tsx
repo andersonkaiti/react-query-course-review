@@ -2,17 +2,20 @@ import { useQuery } from '@tanstack/react-query'
 import { getUsers } from '../http/get-users'
 
 const FIVE_SECONDS = 5000
+const ONE_SECOND = 1000
 
 export function Users() {
-  const { data, refetch, isLoading, isFetching } = useQuery({
+  const { data, refetch, isLoading, isFetching, error, isError } = useQuery({
     enabled: true,
     queryKey: ['users'],
     staleTime: FIVE_SECONDS,
     gcTime: FIVE_SECONDS,
-    // refetchOnWindowFocus: false,
-    // refetchInterval: Long Polling
-    // Dispara uma request a cada determinado período de tempo
-    refetchInterval: FIVE_SECONDS,
+    refetchOnWindowFocus: false,
+    // A cada erro, o React Query reexecuta a função, por padrão, 3 vezes
+    // em períodos de tempos diferentes
+    retry: 10,
+    // retryDelay: ONE_SECOND,
+    retryDelay: (_retryIndex) => ONE_SECOND,
     queryFn: getUsers,
   })
 
@@ -28,6 +31,7 @@ export function Users() {
 
       {isLoading && <p>Carregando...</p>}
       {!isLoading && isFetching && <small className="block">Fetching...</small>}
+      {isError && <h1 className="text-red-400">{error.toString()}</h1>}
 
       {data?.map((user) => (
         <div key={user.id}>
