@@ -7,16 +7,7 @@ interface IUser {
 }
 
 export function Users() {
-  // const [signedIn, setSignedIn] = useState(false)
-
-  const {
-    data,
-    refetch,
-    isLoading,
-    isPending: _isPending,
-    isFetching,
-  } = useQuery({
-    // propriedade reativa
+  const { data, refetch, isLoading, isFetching } = useQuery({
     enabled: false,
     queryKey: ['users'],
     queryFn: async (): Promise<IUser[]> => {
@@ -26,20 +17,11 @@ export function Users() {
     },
   })
 
-  /**
-   * isLoading: é o loading inicial.
-   * isPending: é true enquanto não houver valor no cache.
-   * isFetching: é true sempre que a queryFn é executada.
-   *
-   * isLoading = isPending && isFetching
-   */
-
   return (
     <div className="p-4">
       <button
         type="button"
         className="cursor-pointer rounded-lg bg-white px-4 py-2 text-black hover:bg-zinc-300"
-        // onClick={() => setSignedIn(true)}
         onClick={() => refetch()}
       >
         Listas usuários
