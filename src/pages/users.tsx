@@ -1,11 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
-import { getUsers } from '../http/get-users'
+import { useUsers } from '../hooks/use-users'
 
 export function Users() {
-  const { data, refetch, isLoading, isFetching, error, isError } = useQuery({
-    queryKey: ['users'],
-    queryFn: getUsers,
-  })
+  const { users, refetch, isLoading, isFetching, error, isError } = useUsers()
 
   return (
     <div className="p-4">
@@ -21,7 +17,7 @@ export function Users() {
       {!isLoading && isFetching && <small className="block">Fetching...</small>}
       {isError && <h1 className="text-red-400">{error.toString()}</h1>}
 
-      {data?.map((user) => (
+      {users.map((user) => (
         <div key={user.id}>
           <strong className="block">{user.name}</strong>
           <small>{user.email}</small>
