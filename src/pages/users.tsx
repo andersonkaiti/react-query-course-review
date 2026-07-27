@@ -12,9 +12,15 @@ export function Users() {
     isError,
   } = useUsers()
 
-  const { mutate } = useMutation({
+  const {
+    mutate,
+    isPending,
+    data: user,
+  } = useMutation({
     mutationFn: createUser,
   })
+
+  console.log({ user })
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -45,7 +51,7 @@ export function Users() {
             type="submit"
             className="mt-1 cursor-pointer rounded-md bg-blue-400 py-2 text-base text-zinc-950 hover:bg-blue-500"
           >
-            Cadastrar
+            {isPending ? 'Cadastrando...' : 'Cadastrar'}
           </button>
         </form>
       </div>
