@@ -9,4 +9,10 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+  server: {
+    watch: {
+      // Evita que o json-server (ao gravar em server/db.json) dispare um reload
+      ignored: ['**/server/**'],
+    },
+  },
 })
