@@ -8,19 +8,36 @@ export function Users() {
     refetch,
     isLoading: isUsersLoading,
     isFetching,
-    error,
+    error: usersError,
     isError,
   } = useUsers()
 
   const {
     mutate,
     isPending,
-    data: user,
+    error: _error,
   } = useMutation({
     mutationFn: createUser,
-  })
+    onError: (error, variables) => {
+      console.log(
+        `Erro na request.\n${error.toString()}\nVariables:`,
+        variables,
+      )
+    },
+    onSuccess: (data, variables) => {
+      console.log('onSuccess', { data, variables })
+    },
+    // Sempre executa
+    onSettled: (data, error) => {
+      if (data) {
+        console.log('Deu tudo certo!', data)
+      }
 
-  console.log({ user })
+      if (error) {
+        console.log('Deu tudo errado!', error)
+      }
+    },
+  })
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -68,7 +85,7 @@ export function Users() {
       {!isUsersLoading && isFetching && (
         <small className="block">Fetching...</small>
       )}
-      {isError && <h1 className="text-red-400">{error.toString()}</h1>}
+      {isError && <h1 className="text-red-400">{usersError.toString()}</h1>}
 
       {users.map((user) => (
         <div key={user.id}>

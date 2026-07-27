@@ -13,7 +13,9 @@ export async function createUser({
   name,
   email,
 }: ICreateUserRequest): Promise<IUser> {
-  await new Promise((resolve) => setTimeout(resolve, 1500))
+  // await new Promise((resolve) => setTimeout(resolve, 1500))
+
+  // throw new Error('Deu ruim!')
 
   const response = await fetch('http://localhost:3000/users', {
     method: 'POST',
