@@ -12,41 +12,28 @@ export function Users() {
     isError,
   } = useUsers()
 
-  const {
-    mutate,
-    isPending,
-    error: _error,
-  } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: createUser,
-    onError: (error, variables) => {
-      console.log(
-        `Erro na request.\n${error.toString()}\nVariables:`,
-        variables,
-      )
-    },
-    onSuccess: (data, variables) => {
-      console.log('onSuccess', { data, variables })
-    },
-    // Sempre executa
-    onSettled: (data, error) => {
-      if (data) {
-        console.log('Deu tudo certo!', data)
-      }
-
-      if (error) {
-        console.log('Deu tudo errado!', error)
-      }
-    },
   })
 
-  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const form = new FormData(event.target)
     const name = String(form.get('name'))
     const email = String(form.get('email'))
 
-    mutate({ name, email })
+    try {
+      // O mutateAsync permite executar a função callback createUser diretamente
+      // e lidar com a sua resposta logo em seguida sem muito overengineering
+      const { id } = await mutateAsync({ name, email })
+
+      console.log(`Redireciona para /users/${id}`)
+    } catch (error) {
+      console.log(error?.toString())
+    } finally {
+      console.log('Terminou de executar!')
+    }
   }
 
   return (
